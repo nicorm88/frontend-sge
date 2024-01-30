@@ -7,7 +7,7 @@ import { URL_API } from 'src/environments/environment';
 import { Reunion } from '../shared/interfaces/reunion';
 import { Entidad } from '../shared/interfaces/entidad';
 
-const ENDPOINT = 'alumno';
+const ENDPOINT = 'alumnado';
 
 @Injectable({
   providedIn: 'root'
