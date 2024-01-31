@@ -13,6 +13,7 @@ export const ENTIDAD_REUNION = "Reunión/Evento";
 export const ENTIDAD_ASISTENTE = "Asistente";
 export const ENTIDAD_FAMILIA = "Familia";
 export const ENTIDAD_UNIDAD = "Ciclo Formativo";
+export const ENTIDAD_ALUMNO = "Alumno";
 export const ENTIDAD_CICLO = "Ciclo Formativo";
 export const ENTIDAD_CENTRO = "Unidad Centro";
 

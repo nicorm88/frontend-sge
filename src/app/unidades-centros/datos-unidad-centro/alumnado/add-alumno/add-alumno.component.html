@@ -1,0 +1,86 @@
+<div class="container">
+  <h3 mat-dialog-title>Añadir {{ENTIDAD}}</h3>
+
+  <form class="mat-dialog-content" [formGroup]="alumnoForm">
+
+      <div class="form">
+          <mat-form-field color="accent">
+              <input matInput placeholder="Nombre" formControlName="nombre" name="nombre" maxlength="100" required>
+          </mat-form-field>
+      </div>
+
+      <div class="form">
+          <mat-form-field color="accent">
+              <input matInput placeholder="Apellidos" formControlName="apellido" name="apellido" maxlength="100" required>
+          </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field color="accent">
+          <input matInput type="date" placeholder="Fecha de nacimiento" formControlName="fecha_nacimiento" name="fecha_nacimiento" max="9999-12-31" required>
+        </mat-form-field>
+      </div>
+
+
+      <div class="form">
+          <mat-form-field color="accent">
+              <input matInput placeholder="Linkedin" formControlName="linkedin" name="linkedin" maxlength="100">
+          </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field color="accent">
+          <mat-label>Ingles</mat-label>
+          <mat-select formControlName="ingles" name="ingles">
+            <mat-option value="A1">A1</mat-option>
+            <mat-option value="A2">A2</mat-option>
+            <mat-option value="B1">B1</mat-option>
+            <mat-option value="B2">B2</mat-option>
+            <mat-option value="C1">C1</mat-option>
+            <mat-option value="C2">C2</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field color="accent">
+          <mat-label>Minusvalía</mat-label>
+          <mat-select formControlName="minusvalia" name="minusvalia">
+            <mat-option *ngFor="let i of range(1, 100)" [value]="i">{{ i }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+          <mat-form-field color="accent">
+              <input matInput placeholder="Otro" formControlName="otro" name="otro" maxlength="100">
+          </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field color="accent">
+            <input matInput placeholder="DNI" formControlName="id" name="id" maxlength="100">
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+          <mat-form-field>
+              <mat-label>ID Unidad Centro</mat-label>
+              <mat-select formControlName="id_unidad_centro">
+                  <mat-option value="">Sin unidades</mat-option>
+                  <mat-option *ngFor="let idZ of unidadesCentro" [value]="idZ.id_unidad_centro">
+                      {{idZ.id_unidad_centro}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
+
+
+
+      <div mat-dialog-actions>
+          <button mat-button id="onSubmit" type="submit" [disabled]="!alumnoForm.valid" (click)="confirmAdd()">Guardar</button>
+          <button mat-button id="onNoClick" (click)="onNoClick()" tabindex="-1">Cancelar</button>
+      </div>
+
+  </form>
+</div>

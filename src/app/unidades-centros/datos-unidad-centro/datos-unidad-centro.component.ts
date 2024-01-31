@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, } from '@angular/forms';
+
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivationStart, Router, RouterOutlet } from '@angular/router';
@@ -18,7 +18,6 @@ export class DatosUnidadCentroComponent implements OnInit {
   @ViewChild(RouterOutlet, {static: false}) outlet: RouterOutlet;
   rutaSeleccionada: string;
   lastRoute = '';
-  entidadForm: FormGroup;
 
   constructor(
             private router: Router,
@@ -58,6 +57,6 @@ export class DatosUnidadCentroComponent implements OnInit {
     }
 
   onNoClick() {
-    this.dialogRef.close({entidad: this.datosEditarUnidadCentro.unidadCentro});
+    this.dialogRef.close({unidadCentro: this.datosEditarUnidadCentro.unidadCentro});
   }
 }

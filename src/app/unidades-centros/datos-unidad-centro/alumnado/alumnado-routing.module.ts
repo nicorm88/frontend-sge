@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AlumnadoComponent } from './alumnado.component';
 
-import { ContactosEntidadComponent } from './contactos-entidad.component';
 
 const routes: Routes = [
-  { path: '', component: ContactosEntidadComponent },
-  { 
-    path: 'add-contacto', 
-    loadChildren: () => import('./add-contacto/add-contacto.module').then(m => m.AddContactoModule) 
+  { path: '', component: AlumnadoComponent },
+  {
+    path: 'add-contacto',
+    loadChildren: () => import('./add-alumno/add-alumno.module').then(m => m.AddAlumnoModule)
   },
-  { 
-    path: 'edit-contacto', 
-    loadChildren: () => import('./edit-contacto/edit-contacto.module').then(m => m.EditContactoModule) 
+  {
+    path: 'edit-contacto',
+    loadChildren: () => import('./edit-alumno/edit-alumno.module').then(m => m.EditAlumnoModule)
   },
-  { 
-    path: 'delete-contacto', 
-    loadChildren: () => import('./delete-contacto/delete-contacto.module').then(m => m.DeleteContactoModule) 
+  {
+    path: 'delete-contacto',
+    loadChildren: () => import('./delete-alumno/delete-alumno.module').then(m => m.DeleteAlumnoModule)
   },
 ];
 
@@ -23,4 +23,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ContactosEntidadRoutingModule { }
+export class AlumnadoRoutingModule { }

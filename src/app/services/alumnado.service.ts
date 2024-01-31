@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Contacto as Alumno } from '../shared/interfaces/contacto';
+import { Alumno } from '../shared/interfaces/alumno';
 import { ApiResponse } from '../shared/interfaces/api-response';
 import { HttpClient } from '@angular/common/http';
 import { CommonService } from '../shared/common.service';
 import { URL_API } from 'src/environments/environment';
-import { Reunion } from '../shared/interfaces/reunion';
-import { Entidad } from '../shared/interfaces/entidad';
 
 const ENDPOINT = 'alumnado';
 
@@ -23,14 +21,13 @@ export class AlumnadoService {
   }
 */
   getAlumnadoUnidadCentro(id_unidad_centro: number) {
-    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?entidad=${id_unidad_centro}`, { headers: this.commonService.headers });
+    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_unidad_centro=${id_unidad_centro}`, { headers: this.commonService.headers });
   }
 
   getAllAlumnado() {
     return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, { headers: this.commonService.headers });
   }
 
-  // Se trae todos los contactos que no están ya en la reunión como asistentes
   getAlumnadoDisponibles(idReunion: number) {
     return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?reunion=${idReunion}`, { headers: this.commonService.headers });
   }

@@ -7,18 +7,18 @@ const routes: Routes = [
   {
     path: '',
     component: DatosUnidadCentroComponent,
-    redirectTo: 'datos-entidad-reunion'
+    redirectTo: 'datos-basicos-unidad-centro'
   },
   {
     path: 'datos-basicos-unidad-centro',
     loadChildren: () => import('./datos-basicos-unidad-centro/datos-basicos-unidad-centro.module').then(m => m.DatosBasicosUnidadCentroModule),
     outlet: 'sidebar'
   },
-  // {
-  //   path: 'alumnado',
-  //   loadChildren: () => import('./alumnado/alumnado.module').then(m => m.AlumnadoUnidadCentroModule),
-  //   outlet: 'sidebar'
-  // }
+  {
+     path: 'alumnado',
+     loadChildren: () => import('./alumnado/alumnado.module').then(m => m.AlumnadoModule),
+     outlet: 'sidebar'
+  }
   ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -7,14 +7,13 @@ import { Overlay } from '@angular/cdk/overlay';
 import { FormControl } from '@angular/forms';
 import { Permises } from 'src/app/shared/interfaces/api-response';
 
-import { Contacto } from 'src/app/shared/interfaces/contacto';
-import { ContactosService } from 'src/app/services/contactos.service';
-
-import { AddContactoComponent } from './add-contacto/add-contacto.component';
-import { EditContactoComponent } from './edit-contacto/edit-contacto.component';
-import { DeleteContactoComponent } from './delete-contacto/delete-contacto.component';
-import { Entidad } from '../../../shared/interfaces/entidad';
-import { EntidadesService } from '../../../services/entidades.service';
+import { AddAlumnoComponent } from './add-alumno/add-alumno.component';
+import { EditAlumnoComponent } from './edit-alumno/edit-alumno.component';
+import { DeleteAlumnoComponent } from './delete-alumno/delete-alumno.component';
+import { AlumnadoService } from '../../../services/alumnado.service';
+import { Alumno } from 'src/app/shared/interfaces/alumno';
+import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
+import { UnidadesCentrosService } from 'src/app/services/unidades-centros.service';
 
 @Component({
   selector: 'app-alumnado',
@@ -26,43 +25,42 @@ export class AlumnadoComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  dataSource: MatTableDataSource<Contacto> = new MatTableDataSource();
+  dataSource: MatTableDataSource<Alumno> = new MatTableDataSource();
 
-  idContactoFilter = new FormControl();
+  idAlumnoFilter = new FormControl();
   nombreCompletoFilter = new FormControl();
-  cargoFilter = new FormControl();
-  familiaFilter = new FormControl();
-  entidad: Entidad;
+  fechaNacimientoFilter = new FormControl();
+  unidad_centro: UnidadCentro;
 
   permises: Permises;
 
   displayedColumns: string[];
-  private filterValues = { id_contacto: '', nombre_completo: '', cargo: '', familia: '' };
+  private filterValues = { id_alumnado: '', nombre: '',apellido: '', fecha_nacimiento: '', id_unidad_centro: ''};
 
   constructor(
     public dialog: MatDialog,
-    private contactosService: ContactosService,
+    private alumnadoService: AlumnadoService,
     private overlay: Overlay,
 
-    public entidadService: EntidadesService
+    public unidadesCentroService: UnidadesCentrosService
   ) { }
 
   ngOnInit(): void {
-    this.entidad = this.entidadService.entidad;
-    this.getContactosEntidad(this.entidad);
+    this.unidad_centro = this.unidadesCentroService.unidadCentro;
+    this.getAlumnadoUnidadCentro(this.unidad_centro);
     //this.createFilter();
     //this.onChanges();
   }
 
 
-  async getContactosEntidad(entidad: Entidad) {
-    const RESPONSE = await this.contactosService.getContactosEntidad(entidad.id_entidad).toPromise();
+  async getAlumnadoUnidadCentro(unidad_centro: UnidadCentro) {
+    const RESPONSE = await this.alumnadoService.getAlumnadoUnidadCentro(unidad_centro.id_unidad_centro).toPromise();
     this.permises = RESPONSE.permises;
 
     if (RESPONSE.ok) {
-      this.contactosService.contacto = RESPONSE.data as Contacto[];
-      this.displayedColumns = ['nombre_completo', 'cargo', 'familia', 'actions'];
-      this.dataSource.data = this.contactosService.contacto;
+      this.alumnadoService.alumno = RESPONSE.data as Alumno[];
+      this.displayedColumns = ['id_alumnado','nombre', 'apellido', 'fecha_nacimiento', 'id_unidad_centro', 'actions'];
+      this.dataSource.data = this.alumnadoService.alumno;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.dataSource.filterPredicate = this.createFilter();
@@ -70,8 +68,8 @@ export class AlumnadoComponent implements OnInit {
     }
   }
 
-  async addContacto(idEntidad: number) {
-    const dialogRef = this.dialog.open(AddContactoComponent, { data: idEntidad, scrollStrategy: this.overlay.scrollStrategies.noop() });
+  async addAlumno(id_unidad_centro: number) {
+    const dialogRef = this.dialog.open(AddAlumnoComponent, { data: id_unidad_centro, scrollStrategy: this.overlay.scrollStrategies.noop() });
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
@@ -80,8 +78,8 @@ export class AlumnadoComponent implements OnInit {
     }
   }
 
-  async editContacto(contacto: Contacto) {
-    const dialogRef = this.dialog.open(EditContactoComponent, { data: contacto, scrollStrategy: this.overlay.scrollStrategies.noop() });
+  async editAlumno(alumno: Alumno) {
+    const dialogRef = this.dialog.open(EditAlumnoComponent, { data: alumno, scrollStrategy: this.overlay.scrollStrategies.noop() });
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
@@ -90,8 +88,8 @@ export class AlumnadoComponent implements OnInit {
     }
   }
 
-  async deleteContacto(contacto: Contacto) {
-    const dialogRef = this.dialog.open(DeleteContactoComponent, { data: contacto, scrollStrategy: this.overlay.scrollStrategies.noop() });
+  async deleteAlumno(alumno: Alumno) {
+    const dialogRef = this.dialog.open(DeleteAlumnoComponent, { data: alumno, scrollStrategy: this.overlay.scrollStrategies.noop() });
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
@@ -101,14 +99,13 @@ export class AlumnadoComponent implements OnInit {
   }
 
 
-  createFilter(): (contacto: Contacto, filter: string) => boolean {
-    const filterFunction = (contacto: Contacto, filter: string): boolean => {
+  createFilter(): (alumno: Alumno, filter: string) => boolean {
+    const filterFunction = (alumno: Alumno, filter: string): boolean => {
       const searchTerms = JSON.parse(filter);
 
-      return contacto.id_contacto.toString().indexOf(searchTerms.id_contacto) !== -1
-        && contacto.nombre_completo.toLowerCase().indexOf(searchTerms.nombre_completo.toLowerCase()) !== -1
-        && contacto.cargo.toLowerCase().indexOf(searchTerms.cargo.toLowerCase()) !== -1
-        && contacto.familia.toLowerCase().indexOf(searchTerms.familia.toLowerCase()) !== -1;
+      return alumno.id_alumnado.toString().indexOf(searchTerms.id_alumnado) !== -1
+        && alumno.nombre.toLowerCase().indexOf(searchTerms.nombre.toLowerCase()) !== -1
+        && alumno.apellido.toLowerCase().indexOf(searchTerms.apellido.toLowerCase()) !== -1;
         // TODO Arreglar esto
     };
 
@@ -116,28 +113,24 @@ export class AlumnadoComponent implements OnInit {
   }
 
   onChanges() {
-     this.idContactoFilter.valueChanges.subscribe(value => {
-        this.filterValues.id_contacto = value;
+     this.idAlumnoFilter.valueChanges.subscribe(value => {
+        this.filterValues.id_alumnado = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 
     this.nombreCompletoFilter.valueChanges
     .subscribe(value => {
-        this.filterValues.nombre_completo = value;
+        this.filterValues.nombre = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 
-    this.cargoFilter.valueChanges
+    this.fechaNacimientoFilter.valueChanges
     .subscribe(value => {
-        this.filterValues.cargo = value;
+        this.filterValues.fecha_nacimiento = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 
-    this.familiaFilter.valueChanges
-    .subscribe(value => {
-        this.filterValues.familia = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
+
   }
 
 }

@@ -52,7 +52,7 @@ export class UnidadesCentrosComponent implements OnInit {
 
   async datosUnidad(unidadCentro: UnidadCentro) {
     const UNIDADCENTRO = unidadCentro;
-    const ALUMNADO = await this.getAlumnado();
+    const ALUMNADO = await this.getAlumnado(unidadCentro.id_unidad_centro);
 
     if (UNIDADCENTRO) {
       const dialogRef = this.dialog.open(DatosUnidadCentroComponent, {
@@ -83,8 +83,8 @@ export class UnidadesCentrosComponent implements OnInit {
     }
   }
 
-  async getAlumnado(){
-    const RESPONSE = await this.alumnadoService.getAllAlumnado().toPromise();
+  async getAlumnado(id_unidad_centro: number){
+    const RESPONSE = await this.alumnadoService.getAlumnadoUnidadCentro(id_unidad_centro).toPromise();
     if (RESPONSE.ok){
       return RESPONSE.data as Alumno[];
     }
