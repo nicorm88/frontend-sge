@@ -16,7 +16,6 @@ import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 export class AddAlumnoComponent implements OnInit {
   alumnoForm: FormGroup;
   unidadesCentro: UnidadCentro[];
-  numeros: number[] = [];
 
   ENTIDAD: String;
 
@@ -41,9 +40,6 @@ export class AddAlumnoComponent implements OnInit {
     });
     this.ENTIDAD = ENTIDAD_ALUMNO;
 
-    for (let i = 1; i <= 100; i++) {
-      this.numeros.push(i);
-    }
 
     this.getUnidadesCentro();
 
