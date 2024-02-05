@@ -93,7 +93,8 @@ export class AlumnadoComponent implements OnInit {
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
-        this.ngOnInit();
+        this.dataSource.data = this.alumnadoService.alumno;
+        this.getAlumnadoUnidadCentro(this.unidad_centro);
       }
     }
   }

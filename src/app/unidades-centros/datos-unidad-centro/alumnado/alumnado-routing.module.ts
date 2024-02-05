@@ -6,15 +6,15 @@ import { AlumnadoComponent } from './alumnado.component';
 const routes: Routes = [
   { path: '', component: AlumnadoComponent },
   {
-    path: 'add-contacto',
+    path: 'add-alumno',
     loadChildren: () => import('./add-alumno/add-alumno.module').then(m => m.AddAlumnoModule)
   },
   {
-    path: 'edit-contacto',
+    path: 'edit-alumno',
     loadChildren: () => import('./edit-alumno/edit-alumno.module').then(m => m.EditAlumnoModule)
   },
   {
-    path: 'delete-contacto',
+    path: 'delete-alumno',
     loadChildren: () => import('./delete-alumno/delete-alumno.module').then(m => m.DeleteAlumnoModule)
   },
 ];

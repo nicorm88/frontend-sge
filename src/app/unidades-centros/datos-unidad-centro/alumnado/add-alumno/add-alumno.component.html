@@ -17,7 +17,7 @@
 
       <div class="form">
         <mat-form-field color="accent">
-          <input matInput type="date" placeholder="Fecha de nacimiento" formControlName="fecha_nacimiento" name="fecha_nacimiento" max="9999-12-31" required>
+          <input matInput type="date" placeholder="Fecha de nacimiento" formControlName="fecha_nacimiento" name="fecha_nacimiento" max="31/12/9999" required>
         </mat-form-field>
       </div>
 
@@ -66,7 +66,7 @@
       <div class="form">
           <mat-form-field>
               <mat-label>ID Unidad Centro</mat-label>
-              <mat-select formControlName="id_unidad_centro">
+              <mat-select formControlName="id_unidad_centro" required>
                   <mat-option value="">Sin unidades</mat-option>
                   <mat-option *ngFor="let idZ of unidadesCentro" [value]="idZ.id_unidad_centro">
                       {{idZ.id_unidad_centro}}

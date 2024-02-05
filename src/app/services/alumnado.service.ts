@@ -48,6 +48,6 @@ export class AlumnadoService {
   }
 
   deleteAlumno(id: number|string) {
-    return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id=${id}`, {headers: this.commonService.headers });
+    return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_alumnado=${id}`, {headers: this.commonService.headers });
   }
 }

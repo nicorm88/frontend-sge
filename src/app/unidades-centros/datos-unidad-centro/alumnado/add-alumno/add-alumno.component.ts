@@ -16,7 +16,7 @@ import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 export class AddAlumnoComponent implements OnInit {
   alumnoForm: FormGroup;
   unidadesCentro: UnidadCentro[];
-  numeros: number[] = [];
+
 
   ENTIDAD: String;
 
@@ -31,7 +31,7 @@ export class AddAlumnoComponent implements OnInit {
     this.alumnoForm = new FormGroup({
       nombre: new FormControl(null, Validators.required),
       apellido: new FormControl(null, Validators.required),
-      fecha_nacimiento: new FormControl(null, [Validators.required, Validators.email]),
+      fecha_nacimiento: new FormControl(null, Validators.required),
       linkedin: new FormControl(null),
       ingles: new FormControl(null),
       minusvalia: new FormControl(null),
@@ -41,15 +41,13 @@ export class AddAlumnoComponent implements OnInit {
     });
     this.ENTIDAD = ENTIDAD_ALUMNO;
 
-    for (let i = 1; i <= 100; i++) {
-      this.numeros.push(i);
-    }
-
     this.getUnidadesCentro();
 
   }
 
-
+  range(start: number, end: number): number[] {
+    return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+  }
 
   async confirmAdd() {
     if (this.alumnoForm.valid) {
