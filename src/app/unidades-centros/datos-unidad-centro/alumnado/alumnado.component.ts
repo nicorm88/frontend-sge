@@ -28,14 +28,18 @@ export class AlumnadoComponent implements OnInit {
   dataSource: MatTableDataSource<Alumno> = new MatTableDataSource();
 
   idAlumnoFilter = new FormControl();
-  nombreCompletoFilter = new FormControl();
+  nombreFilter = new FormControl();
+  apellidoFilter = new FormControl();
   fechaNacimientoFilter = new FormControl();
+  linkedinfilter = new FormControl();
+  idUnidadFilter = new FormControl();
+
   unidad_centro: UnidadCentro;
 
   permises: Permises;
 
   displayedColumns: string[];
-  private filterValues = { id_alumnado: '', nombre: '',apellido: '', fecha_nacimiento: '', id_unidad_centro: ''};
+  private filterValues = { id_alumnado: '', nombre: '',apellido: '', fecha_nacimiento: '', linkedin: '', id_unidad_centro: ''};
 
   constructor(
     public dialog: MatDialog,
@@ -59,7 +63,7 @@ export class AlumnadoComponent implements OnInit {
 
     if (RESPONSE.ok) {
       this.alumnadoService.alumno = RESPONSE.data as Alumno[];
-      this.displayedColumns = ['id_alumnado','nombre', 'apellido', 'fecha_nacimiento', 'id_unidad_centro', 'actions'];
+      this.displayedColumns = ['id_alumnado','nombre', 'apellido', 'fecha_nacimiento', 'linkedin' , 'id_unidad_centro', 'actions'];
       this.dataSource.data = this.alumnadoService.alumno;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -104,10 +108,16 @@ export class AlumnadoComponent implements OnInit {
     const filterFunction = (alumno: Alumno, filter: string): boolean => {
       const searchTerms = JSON.parse(filter);
 
+      if(alumno.linkedin == null){
+        alumno.linkedin=''
+      }
+
       return alumno.id_alumnado.toString().indexOf(searchTerms.id_alumnado) !== -1
         && alumno.nombre.toLowerCase().indexOf(searchTerms.nombre.toLowerCase()) !== -1
-        && alumno.apellido.toLowerCase().indexOf(searchTerms.apellido.toLowerCase()) !== -1;
-        // TODO Arreglar esto
+        && alumno.apellido.toLowerCase().indexOf(searchTerms.apellido.toLowerCase()) !== -1
+        && alumno.fecha_nacimiento.toDateString().indexOf(searchTerms.fecha_nacimiento) !== -1
+        && alumno.linkedin.toLowerCase().indexOf(searchTerms.linkedin) !== -1
+        && alumno.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro) !== -1;
     };
 
     return filterFunction;
@@ -119,9 +129,27 @@ export class AlumnadoComponent implements OnInit {
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 
-    this.nombreCompletoFilter.valueChanges
+    this.nombreFilter.valueChanges
     .subscribe(value => {
         this.filterValues.nombre = value;
+        this.dataSource.filter = JSON.stringify(this.filterValues);
+    });
+
+    this.apellidoFilter.valueChanges
+    .subscribe(value => {
+        this.filterValues.apellido = value;
+        this.dataSource.filter = JSON.stringify(this.filterValues);
+    });
+
+    this.linkedinfilter.valueChanges
+    .subscribe(value => {
+        this.filterValues.linkedin = value;
+        this.dataSource.filter = JSON.stringify(this.filterValues);
+    });
+
+    this.idUnidadFilter.valueChanges
+    .subscribe(value => {
+        this.filterValues.id_unidad_centro = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 
@@ -132,6 +160,23 @@ export class AlumnadoComponent implements OnInit {
     });
 
 
+  }
+
+  calcularEdad(fechaNacimiento: string): number {
+    const fechaNacimientoDate = new Date(fechaNacimiento);
+    const fechaActual = new Date();
+
+    let edad = fechaActual.getFullYear() - fechaNacimientoDate.getFullYear();
+    const mesActual = fechaActual.getMonth();
+    const mesNacimiento = fechaNacimientoDate.getMonth();
+
+    // Si el mes actual es menor que el mes de nacimiento,
+    // significa que todavía no ha cumplido años este año.
+    if (mesActual < mesNacimiento || (mesActual === mesNacimiento && fechaActual.getDate() < fechaNacimientoDate.getDate())) {
+      edad--;
+    }
+
+    return edad;
   }
 
 }

@@ -1,7 +1,7 @@
 import { Alumno } from 'src/app/shared/interfaces/alumno';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CLOSE, INVALID_FORM, ENTIDAD_ALUMNO } from 'src/app/shared/messages';
 import { UnidadesCentrosService } from 'src/app/services/unidades-centros.service';
@@ -16,10 +16,6 @@ import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 export class AddAlumnoComponent implements OnInit {
   alumnoForm: FormGroup;
   unidadesCentro: UnidadCentro[];
-<<<<<<< HEAD
-
-=======
->>>>>>> 6b2db29d75f961258eb12e42465b5c8dd91e90fb
 
   ENTIDAD: String;
 
@@ -27,6 +23,7 @@ export class AddAlumnoComponent implements OnInit {
     private snackBar: MatSnackBar,
     private servicioAlumnado: AlumnadoService,
     private servicioUnidadCentro: UnidadesCentrosService,
+    @Inject(MAT_DIALOG_DATA)public id_unidad_centro: number
 
   ){ }
 
@@ -40,14 +37,9 @@ export class AddAlumnoComponent implements OnInit {
       minusvalia: new FormControl(null),
       otro: new FormControl(null),
       id: new FormControl(null, Validators.required),
-      id_unidad_centro: new FormControl(null, Validators.required)
+      id_unidad_centro: new FormControl(this.id_unidad_centro)
     });
     this.ENTIDAD = ENTIDAD_ALUMNO;
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 6b2db29d75f961258eb12e42465b5c8dd91e90fb
     this.getUnidadesCentro();
 
   }

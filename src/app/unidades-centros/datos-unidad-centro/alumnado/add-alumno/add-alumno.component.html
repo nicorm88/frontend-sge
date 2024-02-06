@@ -43,9 +43,14 @@
       </div>
 
       <div class="form">
-        <label for="minusvalia">Minusvalía</label>
-        <input type="number" id="minusvalia" name="minusvalia" min="1" max="100">
+        <mat-form-field color="accent">
+          <mat-label>Minusvalía</mat-label>
+          <mat-select formControlName="minusvalia" name="minusvalia">
+            <mat-option *ngFor="let option of range(1,100)" [value]="option">{{ option }}</mat-option>
+          </mat-select>
+      </mat-form-field>
       </div>
+
 
 
       <div class="form">
@@ -61,15 +66,9 @@
       </div>
 
       <div class="form">
-          <mat-form-field>
-              <mat-label>ID Unidad Centro</mat-label>
-              <mat-select formControlName="id_unidad_centro" required>
-                  <mat-option value="">Sin unidades</mat-option>
-                  <mat-option *ngFor="let idZ of unidadesCentro" [value]="idZ.id_unidad_centro">
-                      {{idZ.id_unidad_centro}}
-                  </mat-option>
-              </mat-select>
-          </mat-form-field>
+        <mat-form-field color="accent">
+            <input matInput placeholder="Id Unidad Centro" formControlName="id_unidad_centro" name="Id Unidad Centro" maxlength="100" readonly>
+        </mat-form-field>
       </div>
 
 
