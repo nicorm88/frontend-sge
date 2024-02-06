@@ -16,7 +16,10 @@ import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 export class AddAlumnoComponent implements OnInit {
   alumnoForm: FormGroup;
   unidadesCentro: UnidadCentro[];
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6b2db29d75f961258eb12e42465b5c8dd91e90fb
 
   ENTIDAD: String;
 
@@ -41,6 +44,10 @@ export class AddAlumnoComponent implements OnInit {
     });
     this.ENTIDAD = ENTIDAD_ALUMNO;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6b2db29d75f961258eb12e42465b5c8dd91e90fb
     this.getUnidadesCentro();
 
   }
