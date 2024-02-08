@@ -16,4 +16,5 @@ export const ENTIDAD_UNIDAD = "Ciclo Formativo";
 export const ENTIDAD_ALUMNO = "Alumno";
 export const ENTIDAD_CICLO = "Ciclo Formativo";
 export const ENTIDAD_CENTRO = "Unidad Centro";
+export const ENTIDAD_VACANTE = "Vacante";
 

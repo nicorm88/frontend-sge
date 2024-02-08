@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuardService as AuthGuard } from './guards/auth.guard';
+import { VacantesModule } from './vacantes/vacantes.module';
 
 
 const routes: Routes = [
@@ -68,7 +69,7 @@ const routes: Routes = [
   { path: 'niveles', loadChildren: () => import('./niveles/niveles.module').then(m => m.NivelesModule) },
   { path: 'unidades-dual', loadChildren: () => import('./unidades-dual/unidades-dual.module').then(m => m.UnidadesDualModule) },
   { path: 'unidades-centros', loadChildren: () => import('./unidades-centros/unidades-centros.module').then(m => m.UnidadesCentrosModule) },
-  { path: 'unidades-centros', loadChildren: () => import('./unidades-centros/unidades-centros.module').then(m => m.UnidadesCentrosModule) },
+  { path: 'vacantes', loadChildren: () => import('./vacantes/vacantes.module').then(m => m.VacantesModule) },
   { path: 'ciclos', loadChildren: () => import('./ciclos/ciclos.module').then(m => m.CiclosModule) },
 //  { path: 'unidades', loadChildren: () => import('./entidades/datos-entidad/unidades/unidades.module').then(m => m.UnidadesModule) },
   { path: 'motivos-nodual', loadChildren: () => import('./motivos-nodual/motivos-nodual.module').then(m => m.MotivosNodualModule) },

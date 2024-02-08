@@ -10,3 +10,9 @@ export interface Alumno {
   minusvalia?: string;
 	otro?: string;
   }
+
+  export interface AlumnoVacante {
+    id_alumnado: number;
+    nombre: string;
+    apellido: string;
+    }

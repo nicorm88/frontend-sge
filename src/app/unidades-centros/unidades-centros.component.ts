@@ -68,17 +68,6 @@ export class UnidadesCentrosComponent implements OnInit {
 
       const RESULT = await dialogRef.afterClosed().toPromise();
       await this.getUnidadesCentros();
-      /*
-      let var_reunion;
-      var_reunion = this.originalDatasource.filter(reunion => {
-        return reunion.id_reunion === RESULT.reunion.id_reunion;
-      });
-      */
-      //this.ngOnInit();
-      //this.selection = new SelectionModel<PublicacionDHL>(false, [publicacio[0]]);
-      //this.fiterEstados();
-
-      //this.selection = new SelectionModel<Reunion>(false, [publicacio[0]]);
 
     }
   }

@@ -1,0 +1,5 @@
+export interface VacanteXAlumno{
+  id_vacante_x_alumnado: number;
+  id_vacante: number;
+  id_alumnado: number;
+}
