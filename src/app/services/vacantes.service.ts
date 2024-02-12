@@ -53,4 +53,11 @@ export class VacanteService {
   deleteVacante(id: number|string) {
     return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id=${id}`, {headers: this.commonService.headers });
   }
+
+  insertarAlumnosSeleccionados(id_vacante: number, idAlumnos: number[]) {
+    const ROUTE = 'seleccionar_alumnos';
+    const body = JSON.stringify({ id_vacante: id_vacante, alumnosSeleccionados: idAlumnos });
+    return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php?route=${ROUTE}`, body, { headers: this.commonService.headers });
+  }
+
 }

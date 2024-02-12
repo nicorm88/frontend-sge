@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef,  } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CLOSE, ENTIDAD_VACANTE, ERROR } from '../../shared/messages';
+import { CLOSE, ENTIDAD_VACANTE, ERROR, INVALID_FORM } from '../../shared/messages';
 import { VacanteService } from 'src/app/services/vacantes.service';
 import { Entidad } from 'src/app/shared/interfaces/entidad';
 import { EntidadesService } from 'src/app/services/entidades.service';
@@ -23,8 +23,9 @@ export class EditVacanteComponent implements OnInit {
   entidad : Entidad[];
   unidadCentro : UnidadCentro[];
 
-  alumnosSeleccionados: AlumnoVacante[];
-  alumnosNoSeleccionados: AlumnoVacante[];
+  alumnosSeleccionados: AlumnoVacante[] =[];
+  alumnosNoSeleccionados: AlumnoVacante[] =[];
+
 
   ENTIDAD: String;
 
@@ -80,6 +81,28 @@ export class EditVacanteComponent implements OnInit {
     }
   }
 
+  seleccionarAlumno(alumno: AlumnoVacante) {
+    const numAlumnosPermitidos = this.vacanteForm.get('num_alumnos').value;
+    if (this.alumnosSeleccionados.length >= numAlumnosPermitidos) {
+        this.snackBar.open('El número máximo de alumnos ya ha sido alcanzado.', CLOSE, { duration: 3000 });
+    } else {
+        const indice = this.alumnosNoSeleccionados.indexOf(alumno);
+        if (indice !== -1) {
+            this.alumnosNoSeleccionados.splice(indice, 1); // Elimina al alumno de la lista de no seleccionados
+            this.alumnosSeleccionados.push(alumno); // Agrega al alumno a la lista de seleccionados
+        }
+    }
+}
+
+
+  deSeleccionarAlumno(alumno: AlumnoVacante) {
+    const indice = this.alumnosSeleccionados.indexOf(alumno);
+    if (indice !== -1) {
+        this.alumnosSeleccionados.splice(indice, 1); // Elimina al alumno de la lista de seleccionados
+        this.alumnosNoSeleccionados.push(alumno); // Agrega al alumno a la lista de no seleccionados
+    }
+  }
+
   async getAlumnosNoSeleccionados(id_unidad_centro: number){
     const RESPONSE = await this.servicioVacantes.getAlumnadoNoSeleccionado(id_unidad_centro).toPromise();
     if (RESPONSE.ok){
@@ -91,12 +114,25 @@ export class EditVacanteComponent implements OnInit {
     if (this.vacanteForm.valid) {
       const vacanteForm = this.vacanteForm.value;
 
-      const RESPONSE = await this.servicioVacantes.editVacante(vacanteForm).toPromise();
-      if (RESPONSE.ok) {
-        this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
-        this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
-      } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
-    } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
+      const idsAlumnos: number[] = this.alumnosSeleccionados.map(
+        (alumno) => {
+          return alumno.id_alumnado;
+        }
+      );
+
+      const RESP = await this.servicioVacantes.editVacante(vacanteForm).toPromise();
+      if (RESP.ok) {
+        const RESP2 = await this.servicioVacantes
+          .insertarAlumnosSeleccionados(vacanteForm.id_vacante, idsAlumnos)
+          .toPromise();
+        this.snackBar.open(RESP.message, CLOSE, { duration: 5000 });
+        this.dialogRef.close({ ok: RESP.ok, data: RESP.data });
+      } else {
+        this.snackBar.open(RESP.message, CLOSE, { duration: 5000 });
+      }
+    } else {
+      this.snackBar.open(INVALID_FORM, CLOSE, { duration: 5000 });
+    }
   }
 
   onNoClick() {

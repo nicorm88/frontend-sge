@@ -29,7 +29,7 @@
         <mat-form-field color="accent">
           <mat-label>Numero de alumnos</mat-label>
           <mat-select formControlName="num_alumnos" name="num_alumnos">
-            <mat-option *ngFor="let option of range(1,100)" [value]="option">
+            <mat-option *ngFor="let option of range(alumnosSeleccionados.length,100)" [value]="option">
               {{ option }}
             </mat-option>
           </mat-select>
@@ -44,7 +44,7 @@
             <li
             *ngFor="let alumno of alumnosSeleccionados">
             {{alumno.nombre}}
-            <button mat-icon-button>
+            <button mat-icon-button (click)="deSeleccionarAlumno(alumno)">
               <mat-icon>
                 delete
               </mat-icon>
@@ -59,7 +59,7 @@
           <li
           *ngFor="let alumno of alumnosNoSeleccionados">
           {{alumno.nombre}}
-          <button mat-icon-button>
+          <button mat-icon-button (click)="seleccionarAlumno(alumno)">
             <mat-icon>
               add_circle
             </mat-icon>
