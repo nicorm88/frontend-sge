@@ -8,11 +8,10 @@ import { Permises } from '../shared/interfaces/api-response';
 import { MatDialog } from '@angular/material/dialog';
 import { Overlay } from '@angular/cdk/overlay';
 import { VacanteService } from '../services/vacantes.service';
-import { EntidadesService } from '../services/entidades.service';
-import { UnidadesCentrosService } from '../services/unidades-centros.service';
 import { AddVacanteComponent } from './add-vacante/add-vacante.component';
 import { DeleteVacanteComponent } from './delete-vacante/delete-vacante.component';
 import { EditVacanteComponent } from './edit-vacante/edit-vacante.component';
+import { AlumnoVacante } from '../shared/interfaces/alumno';
 
 @Component({
   selector: 'app-vacantes',
@@ -30,16 +29,19 @@ export class VacantesComponent{
   idUnidadCentroFilter = new FormControl();
   numAlumnadoFilter = new FormControl();
 
+  alumnosSeleccionados: number[] =[];
+  alumnosNoSeleccionados: number[] =[];
+
   permises: Permises;
 
   displayedColumns: string[];
   private filterValues = { id_vacante: '', id_entidad: '', id_unidad_centro: '', num_alumnos: ''};
+  servicioVacantes: any;
+  vacante: any;
 
   constructor(
     public dialog: MatDialog,
     private vacanteService: VacanteService,
-    private entidadService: EntidadesService,
-    private unidadService: UnidadesCentrosService,
     private overlay: Overlay
   ) { }
 
@@ -53,7 +55,7 @@ export class VacantesComponent{
 
     if (RESPONSE.ok) {
       this.vacanteService.vacantes = RESPONSE.data as Vacante[];
-      this.displayedColumns = ['id_vacante', 'id_entidad', 'id_unidad_centro', 'num_alumnos', 'actions'];
+      this.displayedColumns = ['id_vacante', 'id_entidad', 'id_unidad_centro', 'num_alumnos','alumnos_admitidos', 'actions'];
       this.dataSource.data = this.vacanteService.vacantes;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -127,6 +129,22 @@ export class VacantesComponent{
       //     this.filterValues.observaciones = value;
       //     this.dataSource.filter = JSON.stringify(this.filterValues);
       // });
+  }
+
+  async getAlumnosSeleccionados(id_vacante: number){
+    const RESPONSE = await this.servicioVacantes.getAlumnadoSeleccionado(id_vacante).toPromise();
+    if (RESPONSE.ok){
+      let alumnos = RESPONSE.data as AlumnoVacante[];
+      this.alumnosSeleccionados.push(alumnos.length)
+    }
+  }
+
+  async getAlumnosNoSeleccionados(id_unidad_centro: number){
+    const RESPONSE = await this.servicioVacantes.getAlumnadoNoSeleccionado(id_unidad_centro).toPromise();
+    if (RESPONSE.ok){
+      let alumnos = RESPONSE.data as AlumnoVacante[];
+      this.alumnosNoSeleccionados.push(alumnos.length)
+    }
   }
 
 }

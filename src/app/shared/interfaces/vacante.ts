@@ -7,5 +7,5 @@ export interface Vacante {
   num_alumnos: number;
   unidad_centro?: string;
   entidad?: string;
-  listado_alumnos?: Alumno[];
+  alumnos_admitidos?: string;
 }

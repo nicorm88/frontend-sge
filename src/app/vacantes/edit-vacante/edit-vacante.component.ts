@@ -47,7 +47,7 @@ export class EditVacanteComponent implements OnInit {
       id_unidad_centro: new FormControl(this.vacante.id_unidad_centro, Validators.required),
       id_entidad: new FormControl(this.vacante.id_entidad, Validators.required),
       num_alumnos: new FormControl(this.vacante.num_alumnos, Validators.required),
-      listado_alumnos: new FormControl(this.vacante.listado_alumnos)
+      listado_alumnos: new FormControl(this.vacante.alumnos_admitidos)
     });
     this.getEntidades();
     this.getUnidadesCentro();

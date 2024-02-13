@@ -24,7 +24,7 @@
                 <span mat-sort-header></span>
             </th>
             <td mat-cell *matCellDef="let vacantes"> {{vacantes.unidad_centro}} </td>
-        </ng-container>
+          </ng-container>
 
           <ng-container matColumnDef="num_alumnos">
             <th mat-header-cell *matHeaderCellDef>
@@ -32,6 +32,14 @@
                 <span mat-sort-header></span>
             </th>
             <td mat-cell *matCellDef="let vacantes"> {{vacantes.num_alumnos}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="alumnos_admitidos">
+            <th mat-header-cell *matHeaderCellDef>
+                <input matInput [formControl]="numAlumnadoFilter" placeholder="vacantes">
+                <span mat-sort-header></span>
+            </th>
+            <td mat-cell *matCellDef="let vacantes"> {{vacantes.alumnos_admitidos}} </td>
           </ng-container>
 
           <ng-container matColumnDef="actions">
